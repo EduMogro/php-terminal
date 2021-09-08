@@ -10,5 +10,33 @@
     <div id="terminal-container">
         <input id="terminal"></input>
     </div>
+    <br>
+    <div id="response"></div>
+
+    <script>
+        const terminal = document.getElementById("terminal");
+        terminal.focus();
+        const response = document.getElementById("response");
+
+        terminal.addEventListener("keydown", logKey);
+
+        function logKey(e) {
+            if (e.code === "Enter") {
+                var terminalData = new FormData();
+                terminalData.append('command',terminal.value);
+
+                fetch ("executeCommand.php", {
+                    method: 'POST',
+                    body: terminalData
+                })
+                .then (
+                    res => res.text()
+                )
+                .then( data => {
+                    response.innerHTML = `Salida: ${data}`
+                });
+            }
+        }
+    </script>
 </body>
 </html>
